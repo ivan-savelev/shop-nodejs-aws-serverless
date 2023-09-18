@@ -1,12 +1,13 @@
 service: product-service
 frameworkVersion: '2'
-variablesResolutionMode: 20210219
+configValidationMode: error
+variablesResolutionMode: 20210326
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs16.x
   stage: ${opt:stage, 'dev'}
-  region: us-east-1
+  region: eu-west-1
   environment:
     ENV_STAGE: ${opt:stage, 'dev'}
     PGHOST: ${self:custom.dotenvVars.PGHOST, env:PGHOST, ''}
@@ -43,6 +44,7 @@ functions:
           path: products
           method: get
           cors: true
+
   createProduct:
     handler: handler.createProduct
     events:
@@ -50,6 +52,6 @@ functions:
           path: products
           method: post
           cors: true
-          request:
-              schema:
-                application/json: ${file(src/schemas/createProductSchema.json)}
+          #request:
+          #    schema:
+          #      application/json: ${file(src/schemas/createProductSchema.json)}
